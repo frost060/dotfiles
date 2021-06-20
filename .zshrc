@@ -1,4 +1,4 @@
-source git-prompt.zsh
+source ~/dev/dotfiles/git-prompt.zsh
 
 #gitprompt
 ZSH_GIT_PROMPT_SHOW_UPSTREAM="no"

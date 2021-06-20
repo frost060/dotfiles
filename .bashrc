@@ -1,5 +1,5 @@
-source git-prompt.sh
-source git-completion.bash
+source ~/dev/dotfiles/git-prompt.sh
+source ~/dev/dotfiles/git-completion.bash
 
 GIT_PS1_SHOWDIRTYSTATE=1
 GIT_PS1_SHOWSTASHSTATE=1
