@@ -21,8 +21,9 @@ ZSH_THEME_GIT_PROMPT_STASHED=" %{$fg[blue]%}⚑"
 ZSH_THEME_GIT_PROMPT_CLEAN=" %{$fg_bold[green]%}✔"
 
 # better prompt
+# 🐍 🐳 🔥 🦄 🍔 🍺 🥂 🍷 🥃 🍸 🍹 🧉 🍾 ⏳ 🍟 🍕 
 PROMPT='%B%F{51}%* %F{46}%n@%M %F{226}%~%f%b $(gitprompt)%f
-🐵 '
+🐳 '
 
 # better list
 export LSCOLORS=Dxcxgxfxbxegedabagdxdx
