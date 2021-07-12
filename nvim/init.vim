@@ -1,8 +1,8 @@
 set path+=**
 
-" Nice menu when typing `:find *.py`
 set wildmode=longest,list,full
 set wildmenu
+
 " Ignore files
 set wildignore+=*.pyc
 set wildignore+=*_build/*
@@ -24,7 +24,7 @@ set autoread
 set nobackup
 set nowritebackup
 set noswapfile
-set nu 
+set nu
 set rnu
 set foldlevelstart=99
 set scrolloff=7
@@ -44,7 +44,7 @@ Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend upda
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
-" Plugin outside ~/.vim/plugged with post-update hook
+" Plugin outside ~/.neovim/plugged with post-update hook
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 
@@ -70,6 +70,7 @@ Plug 'rhysd/vim-grammarous'
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
+Plug 'fannheyward/telescope-coc.nvim'
 
 Plug 'kyazdani42/nvim-web-devicons'
 
@@ -80,14 +81,28 @@ Plug 'tjdevries/cyclist.vim'
 Plug 'folke/tokyonight.nvim'
 Plug 'akinsho/nvim-bufferline.lua'
 
-Plug 'TimUntersberger/neogit'
-
 Plug 'hoob3rt/lualine.nvim'
+
+Plug 'mhartington/oceanic-next'
+Plug 'jacoborus/tender.vim'
+Plug 'drewtempelmeyer/palenight.vim'
+
+" Vim Script
+Plug 'nvim-lua/plenary.nvim'
+Plug 'folke/todo-comments.nvim'
+
+Plug 'folke/trouble.nvim'
+
+Plug 'folke/which-key.nvim'
 
 call plug#end()
 
 filetype indent on
 filetype plugin on
+
+let g:tokyonight_style = "night"
+let g:tokyonight_italic_functions = 1
+let g:tokyonight_sidebars = [ "qf", "vista_kind", "terminal", "packer" ]
 
 set termguicolors
 set background=dark
@@ -104,7 +119,6 @@ noremap <Leader>w :bw<CR>
 
 map <C-c> "+y
 
-let g:airline_powerline_fonts = 1
 set rtp+=/usr/local/opt/fzf
 
 let g:fzf_preview_window = 'right:60%'
@@ -112,7 +126,6 @@ let $FZF_DEFAULT_OPTS='--reverse'
 let g:fzf_layout = { 'down': '~30%' }
 
 let g:ackprg = 'ag --nogroup --nocolor --column'
-
 
 nnoremap <silent> <Leader>f :Ag<CR>
 "nnoremap <silent> <Leader>l :Files<CR>
@@ -163,90 +176,19 @@ nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 nmap <leader>rn <Plug>(coc-rename)
 
-nnoremap <silent> <leader> :<c-u> WhichKey ','<CR>
-
-let g:airline#extensions#tabline#enabled = 1
-
-"""TREESITTER"""
-lua <<EOF
-require'nvim-treesitter.configs'.setup {
-	ensure_installed = {"java", "javascript", "typescript", "elixir"},
-	highlight = {
-		enable = true,              -- false will disable the whole extension
-	},
-}
-
-require'nvim-treesitter.configs'.setup {
-	playground = {
-		enable = true,
-		disable = {},
-		updateTime = 25,
-		persist_queries = false
-	}
-}
-EOF
-
 """TELESCOPE"""
 nnoremap <leader>l <cmd>Telescope find_files<cr>
 nnoremap <leader>ff <cmd>Telescope live_grep<cr>
+nnoremap <leader>ss <cmd>lua require("init").curr_buffer() <cr>
 nnoremap <leader>b <cmd>Telescope buffers<cr>
 nnoremap <leader>h <cmd>Telescope help_tags<cr>
 nnoremap <leader>t <cmd>Telescope<cr>
 nnoremap <leader>gs <cmd>Telescope git_status<cr>
 nnoremap <leader>gb <cmd>Telescope git_branches<cr>
 nnoremap <leader>fb <cmd>Telescope file_browser<cr>
+nnoremap <leader>ds <cmd>Telescope coc document_symbols<cr>
 
-lua << EOF
-require('telescope').setup{
-  defaults = {
-    vimgrep_arguments = {
-      'rg',
-      '--color=never',
-      '--no-heading',
-      '--with-filename',
-      '--line-number',
-      '--column',
-      '--smart-case'
-    },
-    prompt_prefix = "> ",
-    selection_caret = "> ",
-    entry_prefix = "  ",
-    initial_mode = "insert",
-    selection_strategy = "reset",
-    sorting_strategy = "descending",
-    layout_strategy = "horizontal",
-    layout_config = {
-      horizontal = {
-        mirror = false,
-      },
-      vertical = {
-        mirror = false,
-      },
-    },
-    file_sorter =  require'telescope.sorters'.get_fuzzy_file,
-    file_ignore_patterns = {"target" ,"target/", "node_modules/**", ".git/**"},
-    generic_sorter =  require'telescope.sorters'.get_generic_fuzzy_sorter,
-    winblend = 0,
-    border = {},
-    borderchars = { '─', '│', '─', '│', '╭', '╮', '╯', '╰' },
-    color_devicons = true,
-    use_less = true,
-    path_display = {},
-    set_env = { ['COLORTERM'] = 'truecolor' }, -- default = nil,
-    file_previewer = require'telescope.previewers'.vim_buffer_cat.new,
-    grep_previewer = require'telescope.previewers'.vim_buffer_vimgrep.new,
-    qflist_previewer = require'telescope.previewers'.vim_buffer_qflist.new,
-
-    -- Developer configurations: Not meant for general override
-    buffer_previewer_maker = require'telescope.previewers'.buffer_previewer_maker
-  }
-}
-
-require("bufferline").setup{}
-require('neogit').setup{}
-
-EOF
-
+lua require("init")
 
 "call cyclist#add_listchar_option_set('limited', {
         "\ 'eol': '↲',
@@ -258,8 +200,15 @@ EOF
         "\ 'nbsp': '␣',
         "\ })
 
-call cyclist#set_tab('default', '→ ')
+" CYCLIST
+call cyclist#set_tab('default', '  ')
 
 set inccommand=split
 
-nnoremap <leader>ng <cmd>Neogit<cr>
+nnoremap <C-j> :cnext<cr>
+nnoremap <C-k> :cprevious<cr>
+
+nnoremap <F4> :lua package.loaded.init=nil <cr>:source ~/.config/nvim/init.vim <cr>
+
+nnoremap <leader>tt :TroubleToggle <cr>
+nnoremap <leader>tr :TroubleRefresh <cr>
