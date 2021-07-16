@@ -58,7 +58,7 @@ Plug 'elixir-editors/vim-elixir'
 
 Plug 'mhinz/vim-mix-format'
 
-" Colorschems
+" Colorschemes
 Plug 'arzg/vim-colors-xcode'
 
 Plug 'sheerun/vim-polyglot'
@@ -76,12 +76,16 @@ Plug 'kyazdani42/nvim-web-devicons'
 
 Plug 'tjdevries/colorbuddy.vim'
 Plug 'tjdevries/gruvbuddy.nvim'
-Plug 'tjdevries/cyclist.vim'
+"Plug 'tjdevries/cyclist.vim'
 
 Plug 'folke/tokyonight.nvim'
-Plug 'akinsho/nvim-bufferline.lua'
+"Plug 'akinsho/nvim-bufferline.lua'
 
-Plug 'hoob3rt/lualine.nvim'
+"Plug 'hoob3rt/lualine.nvim'
+
+"Plug 'lewis6991/gitsigns.nvim'
+
+"Plug 'lukas-reineke/indent-blankline.nvim'
 
 Plug 'mhartington/oceanic-next'
 Plug 'jacoborus/tender.vim'
@@ -95,19 +99,34 @@ Plug 'folke/trouble.nvim'
 
 Plug 'folke/which-key.nvim'
 
+"Plug 'lifepillar/vim-gruvbox8'
+Plug 'morhetz/gruvbox'
+
+Plug 'lifepillar/vim-solarized8'
+
+ "Plug 'itchyny/lightline.vim'
+
 call plug#end()
 
 filetype indent on
 filetype plugin on
 
-let g:tokyonight_style = "night"
-let g:tokyonight_italic_functions = 1
-let g:tokyonight_sidebars = [ "qf", "vista_kind", "terminal", "packer" ]
-
 set termguicolors
 set background=dark
-lua require('colorbuddy').colorscheme('gruvbuddy')
-highlight Comment cterm=italic gui=italic
+
+let g:tokyonight_style = "storm"
+let g:tokyonight_italic_functions = 1
+let g:tokyonight_sidebars = [ "qf", "vista_kind", "terminal", "packer" ]
+let g:gruvbox_bold = 0
+let g:gruvbox_contrast_dark='hard'
+let g:solarized_italics = 0
+
+"lua require('colorbuddy').colorscheme('gruvbuddy')
+
+colorscheme gruvbox 
+
+" Vim Script
+"let g:lightline = {'colorscheme': 'tokyonight'}
 
 let mapleader = ","
 set pastetoggle=<F2>
@@ -128,7 +147,8 @@ let g:fzf_layout = { 'down': '~30%' }
 let g:ackprg = 'ag --nogroup --nocolor --column'
 
 nnoremap <silent> <Leader>f :Ag<CR>
-"nnoremap <silent> <Leader>l :Files<CR>
+nnoremap <silent> <Leader>gg :Files<CR>
+"nnoremap <silent> <Leader>l :GFiles<CR>
 "nnoremap <silent> <Leader>b :Buffers<CR>
 nnoremap <silent> <Leader>c :Colors<CR>
 nnoremap <silent> <Leader>h :History<CR>
@@ -177,7 +197,7 @@ nmap <silent> gr <Plug>(coc-references)
 nmap <leader>rn <Plug>(coc-rename)
 
 """TELESCOPE"""
-nnoremap <leader>l <cmd>Telescope find_files<cr>
+nnoremap <leader>l <cmd>lua require("init").find_files()<cr>
 nnoremap <leader>ff <cmd>Telescope live_grep<cr>
 nnoremap <leader>ss <cmd>lua require("init").curr_buffer() <cr>
 nnoremap <leader>b <cmd>Telescope buffers<cr>
@@ -186,7 +206,7 @@ nnoremap <leader>t <cmd>Telescope<cr>
 nnoremap <leader>gs <cmd>Telescope git_status<cr>
 nnoremap <leader>gb <cmd>Telescope git_branches<cr>
 nnoremap <leader>fb <cmd>Telescope file_browser<cr>
-nnoremap <leader>ds <cmd>Telescope coc document_symbols<cr>
+nnoremap <leader>ds <cmd>lua require("init").document_symbols()<cr>
 
 lua require("init")
 
@@ -201,7 +221,7 @@ lua require("init")
         "\ })
 
 " CYCLIST
-call cyclist#set_tab('default', '  ')
+"call cyclist#set_tab('default', '  ')
 
 set inccommand=split
 
@@ -212,3 +232,5 @@ nnoremap <F4> :lua package.loaded.init=nil <cr>:source ~/.config/nvim/init.vim <
 
 nnoremap <leader>tt :TroubleToggle <cr>
 nnoremap <leader>tr :TroubleRefresh <cr>
+
+hi Normal guibg=NONE ctermbg=NONE

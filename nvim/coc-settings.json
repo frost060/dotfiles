@@ -1,5 +1,6 @@
 {
 	"codeLens.enable": true,
-	"java.referencesCodeLens.enabled": true,
-	"java.jdt.ls.vmargs": "-javaagent:/Users/barometer/.config/lombok/lombok.jar"
+	"java.referencesCodeLens.enabled": false,
+	"java.jdt.ls.vmargs": "-javaagent:/Users/barometer/.config/lombok/lombok.jar",
+	"elixirLS.dialyzerEnabled": false
 }
